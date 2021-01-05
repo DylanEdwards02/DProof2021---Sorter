@@ -1,6 +1,6 @@
 #include "main.h"
 
-void ProofRunFast()
+void ProofRunFast(void*)
 {
   DriveLeftBack.move_velocity(200);
   DriveRightBack.move_velocity(200);
@@ -11,13 +11,10 @@ void ProofRunFast()
 
 void AutonTest()
 {
-  setTargetMove(13.0, 0.0);
+  setTargetMove(36.0);
   while(InPosition==false)
   {
+    delay(10);
   }
   pros::lcd::print(6, "Done");
-  // setTargetTurn(90.0);
-  // while(InPosition==false)
-  // {
-  // }
 }

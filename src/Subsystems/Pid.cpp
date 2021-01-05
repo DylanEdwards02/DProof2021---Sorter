@@ -8,8 +8,8 @@ int TypeMove = 0;
 bool InPosition;
 int counter;
 int Timeout;
-int actiondistance;
-bool actionflag;
+//int actiondistance;
+//bool actionflag;
 bool taskStarted;
 int InchtoTicks(float inches)
 {
@@ -28,19 +28,17 @@ int DegstoTicksR(float degrees)
 	//not sure what 1.08 means
 }
 
-void setTargetMove(float inches, float actiondistanceinches)
+void setTargetMove(float inches)
 {
 	//set motor encoders to 0
 	DriveLeftBack.tare_position();
 	DriveRightBack.tare_position();
 	MoveTarget = InchtoTicks(inches);
-
-	//MoveTarget=(360/(PI * 4.0) * 1.5) * inches;
 	//Converts from inches to ticks
-	actiondistance = InchtoTicks(actiondistanceinches);
+	//actiondistance = InchtoTicks(actiondistanceinches);
 	taskStarted = false;
 	InPosition = false;
-	actionflag = false;
+	//actionflag = false;
 	counter = 0;
 	TypeMove = 0;
 	//Clear Timer
@@ -85,28 +83,34 @@ void MovePID(void*)
 	float DLError;
 	DriveLeftBack.tare_position();
 	DriveRightBack.tare_position();
-	//Target = ticks;
-	//bool SetPosition = false;
-	//int Tolerance = 500;
 	float Tolerance = InchtoTicks(1);
-	//resetMotorEncoder(dLeft);
-	//resetMotorEncoder(dRight);
 	int IntergralZone = InchtoTicks(3);
 	int IntergralZoneTurnL = DegstoTicksL(7);
 	int IntergralZoneTurnR = DegstoTicksR(7);
+  bool ActionFlag;
+	extern bool PIDStop;
 
 	while(true)
 	{
+		while(PIDStop == false)
+		{
+			delay(15);
+		}
 		if(TypeMove == 0)
 		{
-			controller.print(0, 0, "Counter: %f", counter);
-			//lcd::print(5, "counter: %d", counter);
-			float LeftEncoderValue = DriveLeftBack.get_position();
-			//LMError = MoveTarget - DriveLeftBack.get_position();
-			LMError = MoveTarget - LeftEncoderValue;
-			pros::lcd::print(4, "LeftError: %f/n", LeftEncoderValue);
-
-			//LMError = MoveTarget - nMotorEncoder[dLeft]; //Finds how far off the target we are
+			if (DriveRightFront.get_position()> (ActionTarget[0] - InchtoTicks(1)) && DriveRightFront.get_position() < (ActionTarget[0]+ InchtoTicks(1)))
+			{
+				ActionFlag = true;
+			}
+			else if (DriveRightFront.get_position()> (ActionTarget[0] - InchtoTicks(1)) && DriveRightFront.get_position() < (ActionTarget[0]+ InchtoTicks(1)))
+			{
+				ActionFlag = true;
+			}
+			else
+			{
+				ActionFlag = false;
+			}
+			LMError = MoveTarget - DriveLeftBack.get_position();
 			if((MoveTarget - DriveLeftBack.get_position()) < 0)
 			{
 				// Passed destination
@@ -126,20 +130,12 @@ void MovePID(void*)
 			last_LMError = LMError;
 
 			LFValue = (LMError * PGain) + (LIError * IGain) + (DLError * DGain); //Finds the P value
-			if(LFValue > 10)
-			{
-				LFValue = 2;
-			}
 			//motor[dLeft] = LFValue;
 			DriveLeftBack.move_velocity(LFValue);
 			DriveLeftFront.move_velocity(LFValue);
 
-
 			RMError = MoveTarget - DriveRightBack.get_position();
-			pros::lcd::print(5, "RightError: %f", RMError);
-			pros::lcd::print(1, "MoveTarget: %d", MoveTarget);
-			pros::lcd::print(2, "DrivePosition: %d", DriveRightBack.get_position());
-			//RMError = MoveTarget - nMotorEncoder[dRight];
+
 			if((last_RMError * RMError) < 0)
 			{
 				// Passed destination
@@ -160,11 +156,10 @@ void MovePID(void*)
 			last_RMError = RMError;
 
 			RFValue = (RMError * PGain) + (RIError * IGain) + (DRError * DGain); //Determines Power Given to the motors
-			if(RFValue > 10)
-			{
-				RFValue = 2;
-			}
-			//motor[dRight] = RFValue;
+			pros::lcd::print(1, "Power: %f", RFValue);
+			pros::lcd::print(2, "PGain: %f", (RMError * PGain));
+			pros::lcd::print(3, "IGain: %f", (RIError * IGain));
+			pros::lcd::print(4, "DGain: %f", (DRError * DGain));
 			DriveRightBack.move_velocity(RFValue);
 			DriveRightFront.move_velocity(RFValue);
 
@@ -185,17 +180,11 @@ void MovePID(void*)
 		*/
 		if (counter > 50)
 		{
-			//writeDebugStream("InPos\n");
 			InPosition = true;
 		}
 		else
 		{
-			pros::lcd::print(3, "counter: %d", counter);
-		}
-		if (fabsf(LMError) < actiondistance)
-		{
-			//writeDebugStream("ActFlag\n");
-			actionflag = true;
+			//pros::lcd::print(3, "counter: %d", counter);
 		}
 	}
 

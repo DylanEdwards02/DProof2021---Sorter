@@ -3,10 +3,7 @@
 
 void MotorInitialize()
 {
-  //pros::lcd::initialize();
-  delay(250);
-  //pros::lcd::set_text(1, "355E Comp Code");
-  //controller.print(0,0, "355E Test");
+  pros::lcd::initialize();
   DriveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   DriveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   DriveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -15,7 +12,6 @@ void MotorInitialize()
   intakeL.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   frontRollers.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   backRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  //pros::adi_port_config_e_t(D);
   //Bump Switches Defined Here
   /*
   pros::ADIDigitalIn switchTop ('A');

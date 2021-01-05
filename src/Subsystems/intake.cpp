@@ -66,13 +66,9 @@ void Indexing()
   }
 }
 
-void Outtake()
+void Buttons()
 {
-   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
-   {
-    setIntake(-127);
-   }
-   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
    {
      setIntake(-50);
    }
@@ -80,7 +76,7 @@ void Outtake()
    {
      setFront(-50);
    }
-   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
+   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
    {
      setFront(50);
      setBack(-127);

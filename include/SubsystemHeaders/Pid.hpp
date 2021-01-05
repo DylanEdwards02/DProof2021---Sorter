@@ -1,7 +1,7 @@
 #include "main.h"
 
 //Call Functions
-void setTargetMove(float inches, float actiondistanceinches);
+void setTargetMove(float inches);
 void setTargetTurn(float degrees);
 void setActionTarget(float ActionTargetInches1, float ActionTargetInches2);
 
@@ -10,3 +10,5 @@ void MovePID(void*);
 
 //Variables
 extern bool InPosition;
+extern bool PIDStop;
+extern bool ActionFlag;

@@ -9,4 +9,8 @@ void setShoot();
 //Opcontrol Functions
 void Cycle();
 void Indexing();
-void Outtake();
+void Buttons();
+void IntakeAuton();
+
+extern bool AutonIntakeEnable;
+extern bool ActionFlag;
