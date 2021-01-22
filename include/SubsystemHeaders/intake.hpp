@@ -1,10 +1,16 @@
 #include "main.h"
-
+//Header File
 //Helper Functions
 
+//Motor percentage
 void setIntake();
-void setUptake();
-void setShoot();
+void setBack();
+void setFront();
+
+//Motor voltage
+void setFrontVolt();
+void setBackVolt();
+void setIntakeVolt();
 
 //Opcontrol Functions
 void Cycle();

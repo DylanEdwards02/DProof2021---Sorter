@@ -63,6 +63,13 @@ void autonomous()
 {
 	//MovePID();
 pros::Task MoveTask(MovePID);
+PIDStop = true;
+setTargetMove(8);
+while(InPosition == false)
+{
+	delay(10);
+}
+
 //setTargetMove(10.0);
 //pros::Task AutonTest(ProofRunFast);
 //ProofRunFast();
@@ -86,7 +93,7 @@ pros::Task MoveTask(MovePID);
 
  void opcontrol()
  {
-	 PIDStop = true;
+	 PIDStop = false;
 	 while(true)
 	 {
 		 setDriveMotors();

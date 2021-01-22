@@ -65,7 +65,7 @@ void setActionTarget(float ActionTargetInches1, float ActionTargetInches2)
 
 void MovePID(void*)
 {
-	float PGain = 0.1;
+	float PGain = 30;
 	float PGainTurn = 1;
 	float LMError;
 	float last_LMError;
@@ -75,9 +75,9 @@ void MovePID(void*)
 	float LFValue;
 	float RIError;
 	float LIError;
-	float IGain = 0.01;
+	float IGain = 0;
 	float IGainTurn = 0.03;
-	float DGain = 0.1;
+	float DGain = 25;
 	float DGainTurn = 0;
 	float DRError;
 	float DLError;
@@ -89,6 +89,9 @@ void MovePID(void*)
 	int IntergralZoneTurnR = DegstoTicksR(7);
   bool ActionFlag;
 	extern bool PIDStop;
+	//int RampDist = InchtoTicks(9);
+	//int Accel = 500;
+	int VoltCap = 12000;
 
 	while(true)
 	{
@@ -128,11 +131,40 @@ void MovePID(void*)
 
 			DLError = last_LMError - LMError;
 			last_LMError = LMError;
-
-			LFValue = (LMError * PGain) + (LIError * IGain) + (DLError * DGain); //Finds the P value
+			/*
+			if(DriveLeftBack.get_position() < RampDist)
+			{
+				VoltCap = VoltCap + Accel;
+				delay(20);
+				if(VoltCap > 12000)
+				{
+					VoltCap = 12000;
+				}
+			}
+			else if(LMError < RampDist)
+			{
+				VoltCap = VoltCap - Accel;
+				delay(20);
+			}
+			if(VoltCap < 1000)
+			{
+				VoltCap = 1000;
+			}
+			else
+			{
+			}
+			*/
+			LFValue = (LMError * PGain) + (LIError * IGain) + (DLError * DGain);
+			LFValue = (LFValue * .30);
+			 if(LFValue > VoltCap)
+			 {
+			 	LFValue = VoltCap;
+			 }
+			//LFValue = (PIDValLeft)
+			 //Finds the P value
 			//motor[dLeft] = LFValue;
-			DriveLeftBack.move_velocity(LFValue);
-			DriveLeftFront.move_velocity(LFValue);
+			DriveLeftBack.move_voltage(LFValue);
+			DriveLeftFront.move_voltage(LFValue);
 
 			RMError = MoveTarget - DriveRightBack.get_position();
 
@@ -155,13 +187,41 @@ void MovePID(void*)
 			DRError = last_RMError - RMError;
 			last_RMError = RMError;
 
+			/*
+			if(DriveRightBack.get_position() < RampDist)
+			{
+				VoltCap = VoltCap + Accel;
+				delay(20);
+				if(VoltCap > 12000)
+				{
+					VoltCap = 12000;
+				}
+			}
+			else if(RMError < RampDist)
+			{
+				VoltCap = VoltCap - Accel;
+				delay(20);
+				if (VoltCap < 1000 )
+				{
+					VoltCap = 1000;
+				}
+			}
+			else
+			{
+			}
+			*/
 			RFValue = (RMError * PGain) + (RIError * IGain) + (DRError * DGain); //Determines Power Given to the motors
+			RFValue = (RFValue * .30);
+			 if(RFValue > VoltCap)
+			 {
+			 	RFValue = VoltCap;
+			 }
 			pros::lcd::print(1, "Power: %f", RFValue);
 			pros::lcd::print(2, "PGain: %f", (RMError * PGain));
 			pros::lcd::print(3, "IGain: %f", (RIError * IGain));
 			pros::lcd::print(4, "DGain: %f", (DRError * DGain));
-			DriveRightBack.move_velocity(RFValue);
-			DriveRightFront.move_velocity(RFValue);
+			DriveRightBack.move_voltage(RFValue);
+			DriveRightFront.move_voltage(RFValue);
 
 			if (((fabsf(LMError)) < Tolerance) && ((fabsf(RMError)) < Tolerance))
 			{
@@ -203,8 +263,8 @@ void MovePID(void*)
 		}
 		LFValue = (LMError * PGainTurn) + (LIError * IGainTurn); //Finds the power value
 
-		DriveLeftBack.move_velocity(LFValue);
-		DriveLeftFront.move_velocity(LFValue);
+		DriveLeftBack.move_voltage(LFValue);
+		DriveLeftFront.move_voltage(LFValue);
 
 		RMError = TargetTurnR - DriveRightBack.get_position();
 		if (fabsf(LMError) < IntergralZoneTurnR)
@@ -217,8 +277,8 @@ void MovePID(void*)
 		}
 		RFValue = (RMError * PGainTurn) + (RIError * IGainTurn);
 
-		DriveRightBack.move_velocity(RFValue);
-		DriveRightFront.move_velocity(RFValue);
+		DriveRightBack.move_voltage(RFValue);
+		DriveRightFront.move_voltage(RFValue);
 		if (((fabsf(LMError)) < Tolerance) && ((fabsf(RMError)) < Tolerance))
 		{
 			counter = counter + 1;

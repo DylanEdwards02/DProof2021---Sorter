@@ -1,20 +1,37 @@
 #include "main.h"
 
 //HelperFunctions
-void setIntake (int IntakePower)
+
+//Intake Functions
+void setIntake (int IntakePower) //Motor percentage
 {
   intakeL = IntakePower;
   intakeR = IntakePower;
 }
+void setIntakeVolt (int IntakeVolt) //Motor voltage
+{
+  intakeL.move_voltage(IntakeVolt);
+  intakeR.move_voltage(IntakeVolt);
+}
 
-void setBack (int BackRollerPower)
+//Back Roller Function
+void setBack (int BackRollerPower) //Motor percentage
 {
   backRoller = BackRollerPower;
 }
+void setBackVolt (int BackRollerVolt) //Motor voltage
+{
+  backRoller.move_voltage(BackRollerVolt);
+}
 
-void setFront(int FrontRollerPower)
+//Front Rollers Function
+void setFront(int FrontRollerPower) //Motor percentage
 {
   frontRollers = FrontRollerPower;
+}
+void setFrontVolt(int FrontRollerVolt) //Motor voltage
+{
+  frontRollers.move_voltage(FrontRollerVolt);
 }
 
 //Opcontrol Functions
@@ -22,10 +39,10 @@ void Cycle()
 {
   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
   {
-    setIntake(127);
-    setFront(127);
-    setBack(127);
-    pros::lcd::set_text(2, "FLAG");
+    setIntakeVolt(12000);
+    setFrontVolt(12000);
+    setBackVolt(12000);
+    //pros::lcd::set_text(2, "FLAG");
   }
   else
   {
@@ -43,47 +60,40 @@ void Indexing()
 {
   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
   {
-
-    if(pros::c::distance_get(8) < DistanceValue)
+    if(pros::c::distance_get(8) < DistanceValue) //Top ball in
     {
-      setIntake(127);
-      setFront(30);
-      setBack(-30);
-    }
-    else if(pros::c::optical_get_hue(7) < OpticalBallValue)
-    {
-      setIntake(127);
-      setFront(0);
-      setBack(0);
+    setIntake(127);
+    setFront(30);
+    setBack(-30);
     }
     else
     {
-      setIntake(127);
-      setFront(60);
-      setBack(30);
+    setIntake(127);
+    setFront(60);
+    setBack(10);
     }
-    delay(15);
+    delay(10);
   }
 }
 
 void Buttons()
 {
-   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
-   {
-     setIntake(-50);
-   }
-   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
-   {
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+    {
+     setIntake(-127);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+    {
      setFront(-50);
-   }
-   else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
-   {
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+    {
      setFront(50);
      setBack(-127);
-   }
-   else
-   {
-   }
+    }
+    else
+    {
+    }
 }
 
 void Field()
@@ -120,7 +130,6 @@ void IntakeAuton()
     }
     else
     {
-      setIntake(120);
     }
   }
 }
