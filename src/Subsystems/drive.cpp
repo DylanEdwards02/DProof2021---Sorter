@@ -29,9 +29,12 @@ void setDriveMotors ()
 {
   int leftjoystickval = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
   int rightjoystickval = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+  //Retrieves the values from the controller. More specifically, the left and right analog sticks. We later set use these values
+  //Power the each side of the drive train via a tank drive configuration.
 
-  pros::lcd::print(4, "Left: %f/n", leftjoystickval);
-  pros::lcd::print(5, "Right: %f/n", rightjoystickval);
+  //pros::lcd::print(4, "Left: %f/n", leftjoystickval);
+  //pros::lcd::print(5, "Right: %f/n", rightjoystickval);
+  //Prints for troubleshooting
   if(abs(leftjoystickval) < 10)
     {
       leftjoystickval = 0;
@@ -40,8 +43,30 @@ void setDriveMotors ()
     {
       rightjoystickval = 0;
     }
+  //These two if statements create a deadzone on the controller so that the motors aren't constantly in motion when driving.
+  //Deadzones allow the analog sticks to have a bit of tolerance around the 0 value.
 
   float leftjoystick = (leftjoystickval^2/127)*100;
   float rightjoystick = (rightjoystickval^2/127)*100;
+  //These statements are where we calculate the value that is passed into our motors via the stepper functions mentioned above.
+  //We utilize exponential control as it allows for better control of the bot on the field. Along with exponential control, we
+  //use voltage control on the drive motors to give us an edge on those who utilize velocity.
+
   setDriveVolt(leftjoystick, rightjoystick);
+  //Assigns the drive values to the stepper function
+}
+
+//Auton Functions
+
+void DriveForTime(int Time)
+{
+  DriveRightFront.move_voltage(10000);
+  DriveLeftFront.move_voltage(10000);
+  DriveRightBack.move_voltage(10000);
+  DriveLeftBack.move_voltage(10000);
+  delay(Time);
+  DriveRightFront.move_voltage(0);
+  DriveLeftFront.move_voltage(0);
+  DriveRightBack.move_voltage(0);
+  DriveLeftBack.move_voltage(0);
 }

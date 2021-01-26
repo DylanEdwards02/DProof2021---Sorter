@@ -1,4 +1,6 @@
 #include "main.h"
+//Header File
+
 
 //Call Functions
 void setTargetMove(float inches);
@@ -12,3 +14,4 @@ void MovePID(void*);
 extern bool InPosition;
 extern bool PIDStop;
 extern bool ActionFlag;
+extern bool AutonIntakeEnable;

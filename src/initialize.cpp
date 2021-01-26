@@ -23,6 +23,4 @@ void MotorInitialize()
   //pros::lcd::register_btn0_cb(lcd_left_button);
   //pros::lcd::register_btn2_cb(lcd_right_button);
   //autonselector();
-  //pros::Task SortTask (CycleAuto, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My SortTask");
-  //pros::Task IntakeTask (IntakeAuto, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My SortTask");
 }
