@@ -1,5 +1,7 @@
 #include "main.h"
 
+
+//Local Variables
 int TargetMove;
 int MoveTarget;
 int TargetTurnL;
@@ -8,26 +10,26 @@ int TypeMove = 0;
 bool InPosition;
 int counter;
 int Timeout;
-//int actiondistance;
-//bool actionflag;
 bool taskStarted;
+
+
+//This function allows us to convert inches to ticks which is then utilized by our movement function.
 int InchtoTicks(float inches)
 {
-	return(inches * 542.16)/(3.14 * 3.25); //Was 900
+	return(inches * 542.16)/(3.14 * 3.25);
 }
-
+//This function allows us to convert degrees to ticks which is then utilized by our movement function.
 int DegstoTicksL(float degrees)
 {
-	return(degrees/360)*(1.08*3.14)* (542.16);
-	//not sure what 1.08 means
+	return((degrees/360)*(1.08*3.14)* (542.16));
 }
-
+//Seperate function for right side of the drive as they move the opposite direction of the left to make a turn.
 int DegstoTicksR(float degrees)
 {
 	return-((degrees/360)*(1.08*3.14)* (542.16));
-	//not sure what 1.08 means
 }
 
+//Function that is called to set the target value of the PID to move the bot forwards and backwards.
 void setTargetMove(float inches)
 {
 	//set motor encoders to 0
@@ -35,16 +37,16 @@ void setTargetMove(float inches)
 	DriveRightBack.tare_position();
 	MoveTarget = InchtoTicks(inches);
 	//Converts from inches to ticks
-	//actiondistance = InchtoTicks(actiondistanceinches);
 	taskStarted = false;
 	InPosition = false;
-	//actionflag = false;
 	counter = 0;
 	TypeMove = 0;
 	//Clear Timer
 	Timeout = ((fabsf(inches) / 15.0) * 1000) + 1000;
 }
 
+
+//Function that is called to set the target value of the PID to make turns.
 void setTargetTurn(float degrees)
 {
 	DriveLeftBack.tare_position();
@@ -65,8 +67,8 @@ void setActionTarget(float ActionTargetInches1, float ActionTargetInches2)
 
 void MovePID(void*)
 {
-	float PGain = 30;
-	float PGainTurn = 1;
+	float PGain = 29;
+	float PGainTurn = 30;
 	float LMError;
 	float last_LMError;
 	float RMError;
@@ -76,18 +78,18 @@ void MovePID(void*)
 	float RIError;
 	float LIError;
 	float IGain = 0;
-	float IGainTurn = 0.03;
+	float IGainTurn = 0;
 	float DGain = 25;
-	float DGainTurn = 0;
+	float DGainTurn = 25;
 	float DRError;
 	float DLError;
 	DriveLeftBack.tare_position();
 	DriveRightBack.tare_position();
-	float Tolerance = InchtoTicks(1);
+	float Tolerance = InchtoTicks(2);
 	int IntergralZone = InchtoTicks(3);
 	int IntergralZoneTurnL = DegstoTicksL(7);
 	int IntergralZoneTurnR = DegstoTicksR(7);
-  bool ActionFlag;
+  extern bool ActionFlag;
 	extern bool PIDStop;
 	//int RampDist = InchtoTicks(9);
 	//int Accel = 500;
@@ -101,17 +103,20 @@ void MovePID(void*)
 		}
 		if(TypeMove == 0)
 		{
-			if (DriveRightFront.get_position()> (ActionTarget[0] - InchtoTicks(1)) && DriveRightFront.get_position() < (ActionTarget[0]+ InchtoTicks(1)))
+			if (DriveRightFront.get_position()> (ActionTarget[0] - InchtoTicks(8)) && DriveRightFront.get_position() < (ActionTarget[0]+ InchtoTicks(6)))
 			{
 				ActionFlag = true;
+				pros::lcd::print(5, "FlagTrue");
 			}
-			else if (DriveRightFront.get_position()> (ActionTarget[0] - InchtoTicks(1)) && DriveRightFront.get_position() < (ActionTarget[0]+ InchtoTicks(1)))
+			else if (DriveRightFront.get_position()> (ActionTarget[1] - InchtoTicks(8)) && DriveRightFront.get_position() < (ActionTarget[1]+ InchtoTicks(6)))
 			{
 				ActionFlag = true;
+				pros::lcd::print(6, "FlagNUMBER2");
 			}
 			else
 			{
 				ActionFlag = false;
+
 			}
 			LMError = MoveTarget - DriveLeftBack.get_position();
 			if((MoveTarget - DriveLeftBack.get_position()) < 0)
@@ -131,29 +136,7 @@ void MovePID(void*)
 
 			DLError = last_LMError - LMError;
 			last_LMError = LMError;
-			/*
-			if(DriveLeftBack.get_position() < RampDist)
-			{
-				VoltCap = VoltCap + Accel;
-				delay(20);
-				if(VoltCap > 12000)
-				{
-					VoltCap = 12000;
-				}
-			}
-			else if(LMError < RampDist)
-			{
-				VoltCap = VoltCap - Accel;
-				delay(20);
-			}
-			if(VoltCap < 1000)
-			{
-				VoltCap = 1000;
-			}
-			else
-			{
-			}
-			*/
+
 			LFValue = (LMError * PGain) + (LIError * IGain) + (DLError * DGain);
 			LFValue = (LFValue * .30);
 			 if(LFValue > VoltCap)
@@ -187,39 +170,16 @@ void MovePID(void*)
 			DRError = last_RMError - RMError;
 			last_RMError = RMError;
 
-			/*
-			if(DriveRightBack.get_position() < RampDist)
-			{
-				VoltCap = VoltCap + Accel;
-				delay(20);
-				if(VoltCap > 12000)
-				{
-					VoltCap = 12000;
-				}
-			}
-			else if(RMError < RampDist)
-			{
-				VoltCap = VoltCap - Accel;
-				delay(20);
-				if (VoltCap < 1000 )
-				{
-					VoltCap = 1000;
-				}
-			}
-			else
-			{
-			}
-			*/
 			RFValue = (RMError * PGain) + (RIError * IGain) + (DRError * DGain); //Determines Power Given to the motors
 			RFValue = (RFValue * .30);
 			 if(RFValue > VoltCap)
 			 {
 			 	RFValue = VoltCap;
 			 }
-			pros::lcd::print(1, "Power: %f", RFValue);
-			pros::lcd::print(2, "PGain: %f", (RMError * PGain));
-			pros::lcd::print(3, "IGain: %f", (RIError * IGain));
-			pros::lcd::print(4, "DGain: %f", (DRError * DGain));
+			// pros::lcd::print(1, "Power: %f", RFValue);
+			// pros::lcd::print(2, "PGain: %f", (RMError * PGain));
+			// pros::lcd::print(3, "IGain: %f", (RIError * IGain));
+			// pros::lcd::print(4, "DGain: %f", (DRError * DGain));
 			DriveRightBack.move_voltage(RFValue);
 			DriveRightFront.move_voltage(RFValue);
 
@@ -235,10 +195,9 @@ void MovePID(void*)
 			else if(time1[T1] > Timeout) //Time Out Option *need to learn timers*
 			{
 			counter = 51;
-			actionflag = true;
 		}
 		*/
-		if (counter > 50)
+		if (counter > 35)
 		{
 			InPosition = true;
 		}
@@ -287,7 +246,7 @@ void MovePID(void*)
 		{
 			counter = 0;
 		}
-		if (counter > 50)
+		if (counter > 20)
 		{
 			InPosition = true;
 		}

@@ -6,6 +6,7 @@
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
  */
+ /*
 void on_center_button() {
 	static bool pressed = false;
 	pressed = !pressed;
@@ -15,8 +16,7 @@ void on_center_button() {
 		pros::lcd::clear_line(2);
 	}
 }
-//pros::Task MoveTask (MovePID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My PIDMove");
-//pros::Task MoveTask(MovePID);
+*/
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -25,8 +25,6 @@ void on_center_button() {
  */
 void initialize()
 {
-//pros::Task MoveTask (MovePID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My PIDMove");
-//pros::Task MoveTask (ProofRunFast, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My TASK");
 	MotorInitialize();
 }
 
@@ -46,7 +44,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+ void competition_initialize() {}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -59,22 +57,19 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous()
-{
-	//MovePID();
-pros::Task MoveTask(MovePID);
-PIDStop = true;
-setTargetMove(8);
-while(InPosition == false)
-{
-	delay(10);
-}
 
-//setTargetMove(10.0);
-//pros::Task AutonTest(ProofRunFast);
-//ProofRunFast();
-	//AutonTest();
-}
+void autonomous()
+ {
+	 pros::Task MoveTask(MovePID);
+	 PIDStop = true;
+
+	 SkillsAuton();
+	 // setTargetTurn(-86);
+	 // while(InPosition == false)
+	 // {
+		//  delay(10);
+	 // }
+ }
 
 /**
  * Runs the operator conrol code. This function will be started in its own task
