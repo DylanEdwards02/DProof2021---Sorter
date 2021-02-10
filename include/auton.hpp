@@ -5,3 +5,5 @@ void ProofRunFast(void*);
 void AutonTest();
 
 void SkillsAuton();
+
+void Square();

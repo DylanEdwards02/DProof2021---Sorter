@@ -143,4 +143,7 @@ void IntakeAuton()
       setIntakeVolt(10000);
     }
   }
+  else
+  {
+  }
 }

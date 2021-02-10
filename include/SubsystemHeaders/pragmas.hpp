@@ -23,3 +23,4 @@ extern pros::Optical LowerOptical;
 //extern pros::Rotation DREncoder;
 //extern pros::Rotation DLEncoder;
 //extern pros::Rotation DBEncoder;
+extern pros::Imu Gyro;

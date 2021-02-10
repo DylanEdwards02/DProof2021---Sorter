@@ -60,11 +60,24 @@ void setDriveMotors ()
 
 void DriveForTime(int Time)
 {
-  DriveRightFront.move_voltage(10000);
-  DriveLeftFront.move_voltage(10000);
-  DriveRightBack.move_voltage(10000);
-  DriveLeftBack.move_voltage(10000);
+  DriveRightFront.move_voltage(9000);
+  DriveLeftFront.move_voltage(9000);
+  DriveRightBack.move_voltage(9000);
+  DriveLeftBack.move_voltage(9000);
   delay(Time);
+  DriveRightFront.move_voltage(0);
+  DriveLeftFront.move_voltage(0);
+  DriveRightBack.move_voltage(0);
+  DriveLeftBack.move_voltage(0);
+}
+
+void SlowSquare()
+{
+  DriveRightFront.move_voltage(5000);
+  DriveLeftFront.move_voltage(5000);
+  DriveRightBack.move_voltage(5000);
+  DriveLeftBack.move_voltage(5000);
+  delay(700);
   DriveRightFront.move_voltage(0);
   DriveLeftFront.move_voltage(0);
   DriveRightBack.move_voltage(0);
