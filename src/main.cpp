@@ -61,9 +61,10 @@ void disabled() {}
 void autonomous()
  {
 	 pros::Task MoveTask(MovePID);
-	 PIDStop = true;
-
-	 SkillsAuton();
+	 PIDStop = false;
+	 //SkillsAuton();
+	 AutonTest();
+	 //Square();
 	 // setTargetTurn(-86);
 	 // while(InPosition == false)
 	 // {
@@ -84,17 +85,21 @@ void autonomous()
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
- bool PIDStop = false;
-
+ bool PIDStop = true;
  void opcontrol()
  {
-	 PIDStop = false;
+	 PIDStop = true;
+
 	 while(true)
 	 {
 		 setDriveMotors();
 		 Cycle();
 		 Indexing();
 		 Buttons();
+		 float CurAngle = Gyro.get_heading();
+		 float RotAngle = Gyro.get_rotation();
+		 pros::lcd::print(4, "CurAngle: %f", CurAngle);
+		 pros::lcd::print(5, "RotAngle: %f", RotAngle);
 		 delay(10);
 	 }
  }

@@ -45,3 +45,4 @@ pros::Distance TopDistance (8);
 
 //Bump Switches
 //pros::ADIDigitalIn button ('A');
+pros::Imu Gyro (18);
