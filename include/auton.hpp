@@ -1,6 +1,6 @@
 #include "main.h"
 
-void ProofRunFast(void*);
+void ProofRunFast();
 
 void AutonTest();
 

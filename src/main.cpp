@@ -61,9 +61,17 @@ void disabled() {}
 void autonomous()
  {
 	 pros::Task MoveTask(MovePID);
+<<<<<<< Updated upstream
 	 PIDStop = true;
 
 	 SkillsAuton();
+=======
+	 PIDStop = false;
+	 //SkillsAuton();
+	 //ProofRunFast();
+	 AutonTest();
+	 //Square();
+>>>>>>> Stashed changes
 	 // setTargetTurn(-86);
 	 // while(InPosition == false)
 	 // {

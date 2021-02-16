@@ -60,10 +60,29 @@ void setDriveMotors ()
 
 void DriveForTime(int Time)
 {
+<<<<<<< Updated upstream
   DriveRightFront.move_voltage(10000);
   DriveLeftFront.move_voltage(10000);
   DriveRightBack.move_voltage(10000);
   DriveLeftBack.move_voltage(10000);
+=======
+  DriveRightFront.move_voltage(4000);
+  DriveLeftFront.move_voltage(4000);
+  DriveRightBack.move_voltage(4000);
+  DriveLeftBack.move_voltage(4000);
+  delay(Time);
+  DriveRightFront.move_voltage(0);
+  DriveLeftFront.move_voltage(0);
+  DriveRightBack.move_voltage(0);
+  DriveLeftBack.move_voltage(0);
+}
+void DriveBForTime(int Time)
+{
+  DriveLeftFront.move_voltage(-11000);
+  DriveRightBack.move_voltage(-2000);
+  DriveLeftBack.move_voltage(-11000);
+  DriveRightFront.move_voltage(-2000);
+>>>>>>> Stashed changes
   delay(Time);
   DriveRightFront.move_voltage(0);
   DriveLeftFront.move_voltage(0);

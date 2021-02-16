@@ -10,3 +10,4 @@ void setDriveMotors();
 
 //Auton Functions
 void DriveForTime(int Time);
+void DriveBForTime(int Time);

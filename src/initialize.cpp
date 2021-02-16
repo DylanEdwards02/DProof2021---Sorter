@@ -12,6 +12,16 @@ void MotorInitialize()
   intakeL.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   frontRollers.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   backRoller.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+<<<<<<< Updated upstream
+=======
+
+  Gyro.reset();
+  while(Gyro.is_calibrating())
+  {
+    delay(10);
+  }
+  
+>>>>>>> Stashed changes
   //Bump Switches Defined Here
   /*
   pros::ADIDigitalIn switchTop ('A');
