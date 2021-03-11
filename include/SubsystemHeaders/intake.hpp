@@ -1,7 +1,8 @@
 #include "main.h"
 //Header File
-//Helper Functions
 
+
+//Helper Functions
 //Motor percentage
 void setIntake();
 void setBack();
@@ -17,6 +18,8 @@ void Cycle();
 void Indexing();
 void Buttons();
 void IntakeAuton();
+void KickoutFWD();
+void Stop();
 
 extern bool AutonIntakeEnable;
 extern bool ActionFlag;

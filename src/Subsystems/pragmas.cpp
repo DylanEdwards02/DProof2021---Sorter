@@ -4,7 +4,7 @@
 pros::Motor intakeL(10, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_COUNTS); //Dont Know as of 12/2
 pros::Motor intakeR(9, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_COUNTS); //Dont Know as of 12/2
 pros::Motor frontRollers(16, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor backRoller(15, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor backRoller(17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
 
 //Drive Motors
 pros::Motor DriveRightBack(20, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_COUNTS); //Should be 20
@@ -12,6 +12,7 @@ pros::Motor DriveRightFront(13, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_E
 pros::Motor DriveLeftBack(19, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_COUNTS); //Should be 19
 pros::Motor DriveLeftFront(14, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_COUNTS);
 
+//OLD PRAGMAS
 // pros::Motor intakeL(1, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::Motor intakeR(10, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::Motor flywheel(9, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
@@ -29,6 +30,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 //************************************
 
 //Optical Sensors
+pros::Imu Gyro (18);
 pros::Optical TopOptical (5);
 pros::Optical LowerOptical (7);
 pros::Distance TopDistance (8);
@@ -44,5 +46,3 @@ pros::Distance TopDistance (8);
 
 //Bump Switches
 //pros::ADIDigitalIn button ('A');
-
-//Global
