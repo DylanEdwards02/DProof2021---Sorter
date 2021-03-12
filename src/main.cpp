@@ -67,11 +67,10 @@ void autonomous()
  {
 	 pros::Task MoveTask(MovePID);
 
-
 	 //SkillsAuton();
 
 	 //PIDStop = false;
-	 
+
 	 //SkillsAuton();
 	 Homerow();
 	 //ProofRunFast(); //Skills
