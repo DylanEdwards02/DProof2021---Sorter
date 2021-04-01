@@ -6,17 +6,7 @@
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
  */
- /*
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
-*/
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -26,6 +16,8 @@ void on_center_button() {
 void initialize()
 {
 	MotorInitialize();
+	pros::lcd::register_btn0_cb(lcd_left_button);
+	pros::lcd::register_btn2_cb(lcd_right_button);
 }
 
 /**
@@ -61,9 +53,59 @@ void disabled() {}
 void autonomous()
  {
 	 pros::Task MoveTask(MovePID);
+<<<<<<< Updated upstream
 	 PIDStop = true;
 
 	 SkillsAuton();
+=======
+	switch (switchval)
+	{
+		case 0:
+	//	SKILLS();
+			break;
+		case 1:
+		Homerow();
+	//	ThreePT();
+			break;
+		case 2:
+		HomerowRight();
+	//	TwoPTLeft();
+			break;
+		case 3:
+		TwoPointLeft();
+	//	ALTLeft();
+			break;
+		case 4:
+		TwoPointRight();
+	//	TwoPTRight();
+
+			break;
+		case 5:
+		CenterAuton();
+	//	ALTRight();
+
+			break;
+		case 6:
+		//SKILLS();
+
+			break;
+
+		default:
+		break;
+	}
+	 //SkillsAuton();
+
+	 //PIDStop = false;
+
+	 //SkillsAuton();
+	 //Homerow();
+	 //TwoPointRight();
+	 //TwoPointLeft();
+	 //ProofRunFast(); //Skills
+//	 AutonTest();
+	 //Square();
+
+>>>>>>> Stashed changes
 	 // setTargetTurn(-86);
 	 // while(InPosition == false)
 	 // {
@@ -96,5 +138,9 @@ void autonomous()
 		 Indexing();
 		 Buttons();
 		 delay(10);
+<<<<<<< Updated upstream
+=======
+		 pros::lcd::print(5,"curAngle: %f",Gyro.get_rotation());
+>>>>>>> Stashed changes
 	 }
  }

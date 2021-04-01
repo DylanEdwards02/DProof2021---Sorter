@@ -43,7 +43,7 @@ void Cycle()
   if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
   {
     setIntakeVolt(12000);
-    setFrontVolt(12000);
+    setFrontVolt(6000);
     setBackVolt(12000);
     //pros::lcd::set_text(2, "FLAG");
   }
@@ -56,7 +56,7 @@ void Cycle()
 }
 
 //Ball Sensing Variables
-float DistanceValue = 30;
+float DistanceValue = 100;
 int OpticalRedValue = 30;
 int OpticalBlueValue = 0;
 int OpticalBallValue = 0;
@@ -68,6 +68,7 @@ void Indexing()
   {
     if(pros::c::distance_get(8) < DistanceValue) //Top ball in
     {
+<<<<<<< Updated upstream
     setIntake(127);
     setFront(30);
     setBack(-30);
@@ -77,6 +78,24 @@ void Indexing()
     setIntake(127);
     setFront(60);
     setBack(10);
+=======
+      if(pros::c::optical_get_hue(7) < 35 || 200 < pros::c::optical_get_hue(7))
+      {
+      setIntakeVolt(12000);
+      setFrontVolt(0);
+      setBackVolt(0);
+      }
+
+    setIntakeVolt(12000);
+    setFrontVolt(2000);
+    setBackVolt(0);
+    }
+    else
+    {
+    setIntakeVolt(12000);
+    setFrontVolt(6000);
+    setBackVolt(1000);
+>>>>>>> Stashed changes
     }
     delay(10);
   }
@@ -95,8 +114,16 @@ void Buttons()
     }
     else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) //This allows us to kick balls out of the back of the bot by
     {                                                              //reversing the back roller.
+<<<<<<< Updated upstream
      setFront(50);
      setBack(-127);
+=======
+        setBackVolt(-5000);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+    {
+    setFrontVolt(-12000);
+>>>>>>> Stashed changes
     }
     else
     {

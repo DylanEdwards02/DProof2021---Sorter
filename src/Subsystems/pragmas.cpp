@@ -1,10 +1,10 @@
 #include "main.h"
 
 //Intake Motors
-pros::Motor intakeL(10, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_COUNTS); //Dont Know as of 12/2
-pros::Motor intakeR(9, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_COUNTS); //Dont Know as of 12/2
-pros::Motor frontRollers(16, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor backRoller(17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor intakeL(10, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_COUNTS); //Dont Know as of 12/2
+pros::Motor intakeR(9, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_COUNTS); //Dont Know as of 12/2
+pros::Motor frontRollers(12, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS); //NEED to change to Bottom Rollers
+pros::Motor backRoller(15, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS); //NEED to change to TopRollers
 
 //Drive Motors
 pros::Motor DriveRightBack(20, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_COUNTS); //Should be 20

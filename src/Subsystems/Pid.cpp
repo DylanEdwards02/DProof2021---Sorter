@@ -58,6 +58,71 @@ void setTargetTurn(float degrees)
 	TypeMove = 1;
 }
 
+<<<<<<< Updated upstream
+=======
+const int accel_step = 470;
+const int deccel_step = 12000;
+static int leftSpeed = 0;
+static int rightSpeed = 0;
+
+void leftSlew(int leftTarget)
+{
+	int step;
+
+	if(abs(leftSpeed) < abs(leftTarget))
+	{
+		step = accel_step;
+	}
+	else
+	{
+		step = deccel_step;
+	}
+	if(leftTarget > leftSpeed + step)
+	{
+		leftSpeed += step;
+	}
+	else if(leftTarget < leftSpeed - step)
+	{
+		leftSpeed -= step;
+	}
+	else
+	{
+		leftSpeed = leftTarget;
+	}
+
+	DriveLeftBack.move_voltage(leftSpeed);
+	DriveLeftFront.move_voltage(leftSpeed);
+}
+void rightSlew(int rightTarget)
+{
+	int step;
+
+	if(abs(rightSpeed) < abs(rightTarget))
+	{
+		step = accel_step;
+	}
+	else
+	{
+		step = deccel_step;
+	}
+	if(rightTarget > rightSpeed + step)
+	{
+		rightSpeed += step;
+	}
+	else if(rightTarget < rightSpeed - step)
+	{
+		rightSpeed -= step;
+	}
+	else
+	{
+		rightSpeed = rightTarget;
+	}
+
+	DriveRightBack.move_voltage(rightSpeed);
+	DriveRightFront.move_voltage(rightSpeed);
+}
+
+>>>>>>> Stashed changes
 float ActionTarget[2];
 void setActionTarget(float ActionTargetInches1, float ActionTargetInches2)
 {
@@ -78,9 +143,15 @@ void MovePID(void*)
 	float RIError;
 	float LIError;
 	float IGain = 0;
+<<<<<<< Updated upstream
 	float IGainTurn = 0;
 	float DGain = 25;
 	float DGainTurn = 25;
+=======
+	float IGainTurn = 5;
+	float DGain = 600;
+	float DGainTurn = 1250;
+>>>>>>> Stashed changes
 	float DRError;
 	float DLError;
 	DriveLeftBack.tare_position();
@@ -187,6 +258,11 @@ void MovePID(void*)
 			{
 				counter = counter + 1;
 			}
+
+			else if(fabs(DRError) < 6 && (fabs(DLError)< 6)) //Kickout if the bot doesnt move
+			{
+				counter = counter + 1;
+			}
 			else
 			{
 				counter = 0;
@@ -197,9 +273,15 @@ void MovePID(void*)
 			counter = 51;
 		}
 		*/
-		if (counter > 35)
+		if (counter > 20)
 		{
 			InPosition = true;
+<<<<<<< Updated upstream
+=======
+			counter = 21;
+			LFValue = 0;
+			RFValue = 0;
+>>>>>>> Stashed changes
 		}
 		else
 		{
@@ -249,6 +331,10 @@ void MovePID(void*)
 		if (counter > 20)
 		{
 			InPosition = true;
+<<<<<<< Updated upstream
+=======
+			counter = 21;
+>>>>>>> Stashed changes
 		}
 
 	}
